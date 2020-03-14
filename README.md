@@ -155,3 +155,12 @@ const Home = () => {
   return <div>{data.sayHello}</div>;
 };
 ```
+
+## Apollo client SSR
+
+- `yarn add @apollo/react-ssr`
+- `yarn add apollo-cache-inmemory`
+
+```js
+
+```
