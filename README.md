@@ -158,9 +158,133 @@ const Home = () => {
 
 ## Apollo client SSR
 
+> 在 `nest.js` 中开启 `apollo-client` 的 `ssr` 真难配！
+
 - `yarn add @apollo/react-ssr`
 - `yarn add apollo-cache-inmemory`
 
 ```js
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+import fetch from 'isomorphic-unfetch';
+import Head from 'next/head';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
+export function withApollo(PageComonent) {
+  const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
+    const client = apolloClient || initApolloClient(apolloState);
+
+    return (
+      <ApolloProvider client={client}>
+        <PageComonent {...pageProps} />
+      </ApolloProvider>
+    );
+  };
+
+  WithApollo.getInitialProps = async ctx => {
+    const { AppTree } = ctx;
+    const apolloClient = (ctx.apolloClient = initApolloClient());
+
+    let pageProps = {};
+    if (PageComonent.getInitialProps) {
+      pageProps = await PageComonent.getInitialProps(ctx);
+    }
+
+    // if on server
+    if (typeof window === 'undefined') {
+      if (ctx.res && ctx.res.finished) {
+        return pageProps;
+      }
+
+      try {
+        const { getDataFromTree } = await import('@apollo/react-ssr');
+        await getDataFromTree(
+          <AppTree
+            pageProps={{
+              ...pageProps,
+              apolloClient,
+            }}
+          />
+        );
+      } catch (e) {
+        console.error(e);
+      }
+
+      Head.rewind();
+    }
+
+    const apolloState = apolloClient.cache.extract();
+    return {
+      ...pageProps,
+      apolloState,
+    };
+  };
+
+  return WithApollo;
+}
+
+const initApolloClient = (initialState = {}) => {
+  // const ssrMode = typeof window === 'undefined';
+  const cache = new InMemoryCache().restore(initialState);
+
+  const client = new ApolloClient({
+    // ssrMode,
+    uri: 'http://localhost:3000/api/graphql',
+    fetch,
+    cache,
+  });
+
+  return client;
+};
+```
+
+## CSS in jsx
+
+- `yarn add @leveluptuts/fresh`
+
+```js
+const HabitButton = ({ date }) => {
+const [complete, setComplete] = useState(false);
+return (
+  <span>
+    {date.getMonth() + 1}/{date.getDate()}
+    <button onClick={() => setComplete(!complete)}>{complete ? 'X' : 'O'}</button>
+    <style jsx>
+      {`
+        span {
+          display: flex;
+          flex-direction: column;
+        }
+        span + span {
+          margin-left: 10px;
+        }
+        button {
+          margin-top: 1rem;
+          border: none;
+        }
+      `}
+    </style>
+  </span>
+);
+```
+
+## DotEnt
+
+- `yarn add dotnev`
+
+```js
+// next.config.js
+const { parsed: localEnv } = require('dotenv').config();
+const webpack = require('webpack');
+
+module.export = {
+  webpack(config) {
+    config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+    return config;
+  },
+};
+
+// ------------
+// read
+console.log('[env]', process.env.MONGO_URL);
 ```
