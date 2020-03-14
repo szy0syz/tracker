@@ -1,4 +1,5 @@
 import Layouts from '../components/Layouts';
+import Link from 'next/link';
 
 const Home = () => (
   <div className="container">
@@ -36,6 +37,9 @@ const Home = () => (
             <p>Instantly deploy your Next.js site to a public URL with ZEIT Now.</p>
           </a>
         </div>
+        <Link perfetch={false} href="/about">
+          <a>About</a>
+        </Link>
       </main>
 
       <footer>
