@@ -21,11 +21,12 @@ const Habit = ({ habit, index }) => {
       </div>
       <style jsx>
         {`
-          acticle {
+          article {
             padding: 20px;
             border-radius: 15px;
             box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
           }
+
           h3 {
             margin-top: 0;
             border-bottom: solid 4px #718096;
