@@ -1,11 +1,72 @@
-import { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-const HabitButton = ({ date }) => {
-  const [complete, setComplete] = useState(false);
+const ADD_EVENT = gql`
+  mutation addEvent($date: Date, $habitId: ID) {
+    addEvent(date: $date, habitId: $habitId) {
+      _id
+      name
+      events {
+        _id
+        date
+      }
+    }
+  }
+`;
+
+const REMOVE_EVENT = gql`
+  mutation removeEvent($eventId: ID, $habitId: ID) {
+    removeEvent(eventId: $eventId, habitId: $habitId) {
+      _id
+      name
+      events {
+        _id
+        date
+      }
+    }
+  }
+`;
+
+const HabitButton = ({ date, habitId }) => {
+  const [addEvent] = useMutation(ADD_EVENT, {
+    refetchQueries: ['getHabits'],
+  });
+  const [removeEvent] = useMutation(REMOVE_EVENT, {
+    refetchQueries: ['getHabits'],
+  });
+
+  const found = false;
+
   return (
     <span>
       {date.getMonth() + 1}/{date.getDate()}
-      <button onClick={() => setComplete(!complete)}>{complete ? 'X' : 'O'}</button>
+      {found ? (
+        <button
+          onClick={() =>
+            removeEvent({
+              variables: {
+                habitId,
+                eventId: '123dd',
+              },
+            })
+          }
+        >
+          X
+        </button>
+      ) : (
+        <button
+          onClick={() =>
+            addEvent({
+              variables: {
+                habitId,
+                date,
+              },
+            })
+          }
+        >
+          O
+        </button>
+      )}
       <style jsx>
         {`
           span {

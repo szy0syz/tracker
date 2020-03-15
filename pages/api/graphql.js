@@ -1,8 +1,8 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { mergeResolvers, mergeTypeDefs } from 'graphql-toolkit';
-import { habitsresolvers } from '../../api/habits/resolves';
+import { habitsResolvers } from '../../api/habits/resolves';
 import { habitsMutations } from '../../api/habits/mutations';
-import Habits from '../../api/habits/Habits.graphql';
+import Habits from '../../api/habits/Habits.graphql'
 
 import connectDB from '../../lib/mongoose';
 
@@ -20,7 +20,7 @@ const fakeResolvers = {
   },
 };
 
-const resolvers = mergeResolvers([fakeResolvers, habitsresolvers, habitsMutations]);
+const resolvers = mergeResolvers([fakeResolvers, habitsResolvers, habitsMutations]);
 const typeDefs = mergeTypeDefs([fakeTypeDefs, Habits]);
 
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
