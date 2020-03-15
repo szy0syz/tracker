@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import '../lib/mongodb';
 
 import { withApollo } from '../lib/apollo';
 import Layout from '../components/Layout';

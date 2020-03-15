@@ -1,0 +1,17 @@
+type Habit {
+  _id: ID!
+  name: String!
+}
+
+input HabitInput {
+  _id: ID
+  name: String!
+}
+
+type Mutation {
+  addHabit(habit: HabitInput): Habit
+}
+
+type Query {
+  habits: [Habit]
+}

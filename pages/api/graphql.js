@@ -1,12 +1,18 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
+import { mergeResolvers, mergeTypeDefs } from 'graphql-toolkit';
+import { habitsresolvers } from '../../api/habits/resolves';
+import { habitsMutations } from '../../api/habits/mutations';
+import Habits from '../../api/habits/Habits.graphql';
 
-const typeDefs = gql`
+import connectDB from '../../lib/mongoose';
+
+const fakeTypeDefs = gql`
   type Query {
     sayHello: String
   }
 `;
 
-const resolvers = {
+const fakeResolvers = {
   Query: {
     sayHello: () => {
       return 'Hello @.@ Jerry';
@@ -14,13 +20,17 @@ const resolvers = {
   },
 };
 
+const resolvers = mergeResolvers([fakeResolvers, habitsresolvers, habitsMutations]);
+const typeDefs = mergeTypeDefs([fakeTypeDefs, Habits]);
+
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 
-// 送给 nextjs 用的！
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-export default apolloServer.createHandler({ path: '/api/graphql' });
+const server = apolloServer.createHandler({ path: '/api/graphql' });
+
+export default connectDB(server);

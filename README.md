@@ -288,3 +288,80 @@ module.export = {
 // read
 console.log('[env]', process.env.MONGO_URL);
 ```
+
+## MongoDB
+
+- `yarn add mongoose`
+
+```js
+import mongoose from 'mongoose';
+
+const connnectDB = handler => async (req, res) => {
+  if (mongoose.connections[0].readyState !== 1) {
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
+  return handler(req, res);
+};
+
+const db = mongoose.connection;
+db.once('open', () => {
+  console.info('[ info ]', 'Connected to mongo');
+});
+
+export default connnectDB;
+```
+
+## Graphql API
+
+- `yarn add babel-plugin-import-graphql --dev`
+
+```json
+{
+  "presets": ["next/babel"],
+  "plugins": ["import-graphql"]
+}
+```
+
+- `yarn add graphql-toolkit`
+
+```js
+import { ApolloServer, gql } from 'apollo-server-micro';
+import { mergeResolvers, mergeTypeDefs } from 'graphql-toolkit';
+import { habitsresolvers } from '../../api/habits/resolves';
+import { habitsMutations } from '../../api/habits/mutations';
+import Habits from '../../api/habits/Habits.graphql';
+
+import connectDB from '../../lib/mongoose';
+
+const fakeTypeDefs = gql`
+  type Query {
+    sayHello: String
+  }
+`;
+
+const fakeResolvers = {
+  Query: {
+    sayHello: () => {
+      return 'Hello @.@ Jerry';
+    },
+  },
+};
+
+const resolvers = mergeResolvers([fakeResolvers, habitsresolvers, habitsMutations]);
+const typeDefs = mergeTypeDefs([fakeTypeDefs, Habits]);
+
+const apolloServer = new ApolloServer({ typeDefs, resolvers });
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+const server = apolloServer.createHandler({ path: '/api/graphql' });
+
+export default connectDB(server);
+```
