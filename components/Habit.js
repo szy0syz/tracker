@@ -8,7 +8,7 @@ const Habit = ({ habit, index }) => {
 
   return (
     <acticle>
-      <h3 style={{ borderColor: colors[index] }}>{habit}</h3>
+      <h3 style={{ borderColor: colors[index] }}>{habit.name}</h3>
       <div className="buttons">
         {dates.map(date => (
           <HabitButton key={date.getTime()} date={date} />
