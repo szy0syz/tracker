@@ -14,7 +14,7 @@ export const HabitsSchema = new Schema({
     type: String,
     required: true
   },
-  event: [EventSchema]
+  events: [EventSchema]
 });
 
 export default mongoose.models.habits || mongoose.model('habits', HabitsSchema);

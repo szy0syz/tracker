@@ -27,27 +27,30 @@ const REMOVE_EVENT = gql`
   }
 `;
 
-const HabitButton = ({ date, habitId }) => {
+const HabitButton = ({ date, habitId, events }) => {
   const [addEvent] = useMutation(ADD_EVENT, {
-    refetchQueries: ['getHabits'],
+    refetchQueries: ['getHabits']
   });
   const [removeEvent] = useMutation(REMOVE_EVENT, {
-    refetchQueries: ['getHabits'],
+    refetchQueries: ['getHabits']
   });
 
-  const found = false;
+  const foundDate = (events || []).find(event => {
+    const eventDate = new Date(event.date);
+    return eventDate.getDate() === date.getDate();
+  });
 
   return (
     <span>
       {date.getMonth() + 1}/{date.getDate()}
-      {found ? (
+      {foundDate ? (
         <button
           onClick={() =>
             removeEvent({
               variables: {
                 habitId,
-                eventId: '123dd',
-              },
+                eventId: foundDate._id
+              }
             })
           }
         >
@@ -59,8 +62,8 @@ const HabitButton = ({ date, habitId }) => {
             addEvent({
               variables: {
                 habitId,
-                date,
-              },
+                date
+              }
             })
           }
         >
