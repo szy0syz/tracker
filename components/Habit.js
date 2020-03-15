@@ -5,18 +5,12 @@ const colors = ['#718096', '#F56565', '#F6E05E', '#68D391', '#63B3ED'];
 
 const Habit = ({ habit, index }) => {
   const dates = getLast5Days();
-
   return (
-    <acticle>
+    <article>
       <h3 style={{ borderColor: colors[index] }}>{habit.name}</h3>
       <div className="buttons">
         {dates.map(date => (
-          <HabitButton
-            key={date.getTime()}
-            date={date}
-            habitId={habit._id}
-            events={habit.events}
-          />
+          <HabitButton key={date.getTime()} date={date} />
         ))}
       </div>
       <style jsx>
@@ -31,12 +25,13 @@ const Habit = ({ habit, index }) => {
             margin-top: 0;
             border-bottom: solid 4px #718096;
           }
+
           .buttons {
             display: flex;
           }
         `}
       </style>
-    </acticle>
+    </article>
   );
 };
 
