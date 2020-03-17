@@ -4,16 +4,18 @@
 
 ## Deploy
 
-> Zeit 给的台湾服务器丢包率 15%，延迟76ms，这数据也是醉了了。
+> Zeit 给的台湾服务器丢包率 15%，延迟76ms，这数据也是醉了。
 
-- Zeit
+- Zeit (Taiwan)
 - MongoDB Atlas (Google Cloud - Taiwan)
 
+## Summary
+
+- `/pages/` 目录下的文件必须小写，否则 `Zeit` 打包后才会报错，本地调试不会出错！
+- 运行时环境参数
+
+
 ## Notes
-
-### Summary
-
-1. `/pages/` 目录下的文件必须小写，否则 `Zeit` 打包后才会报错，本地调试不会出错！
 
 ### 关于 'next/head'
 
