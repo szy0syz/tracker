@@ -10,7 +10,7 @@ const Nav = () => (
         </Link>
       </li>
       <li>
-        <Link href="/about">
+        <Link prefetch={true} href="/about">
           <a>About</a>
         </Link>
       </li>

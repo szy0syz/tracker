@@ -41,7 +41,7 @@ const Layouts = ({ children }) => {
 ### perfetch
 
 ```js
-<Link perfetch={false} href="/about">
+<Link prefetch={true} href="/about">
   <a>About</a>
 </Link>
 ```
