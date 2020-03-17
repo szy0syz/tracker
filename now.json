@@ -1,0 +1,5 @@
+{
+  "env": {
+    "MONGO_URL": "mongodb+srv://jerryshi:GD1pSLVctPoQPsFt@cluster0-rs4nv.gcp.mongodb.net/test?retryWrites=true&w=majority"
+  }
+}

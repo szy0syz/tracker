@@ -1,8 +1,8 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { mergeResolvers, mergeTypeDefs } from 'graphql-toolkit';
-import { habitsResolvers } from '../../api/habits/resolves';
-import { habitsMutations } from '../../api/habits/mutations';
-import Habits from '../../api/habits/Habits.graphql'
+import { habitsResolvers } from '../../src/api/habits/resolves';
+import { habitsMutations } from '../../src/api/habits/mutations';
+import Habits from '../../src/api/habits/Habits.graphql'
 
 import connectDB from '../../lib/mongoose';
 
