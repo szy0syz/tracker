@@ -1,13 +1,19 @@
 # tracker
 
-> a next.js demo
+> full stack demo with next.js.
 
 ## Deploy
+
+> Zeit 给的台湾服务器丢包率 15%，延迟76ms，这数据也是醉了了。
 
 - Zeit
 - MongoDB Atlas (Google Cloud - Taiwan)
 
 ## Notes
+
+### Summary
+
+1. `/pages/` 目录下的文件必须小写，否则 `Zeit` 打包后才会报错，本地调试不会出错！
 
 ### 关于 'next/head'
 
