@@ -2,6 +2,11 @@
 
 > a next.js demo
 
+## Deploy
+
+- Zeit
+- MongoDB Atlas (Google Cloud - Taiwan)
+
 ## Notes
 
 ### 关于 'next/head'
