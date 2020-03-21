@@ -15,6 +15,7 @@
 
 - `/pages/` 目录下的文件必须小写，否则 `Zeit` 打包后才会报错，本地调试不会出错！
 - 加载运行时环境参数时，`Zeit` 不支持 `next.config.js`，换成 `now.json`
+- `Next.js auto-prefetches automatically based on viewport. The prefetch attribute is no longer needed.`
 
 ## Notes
 
